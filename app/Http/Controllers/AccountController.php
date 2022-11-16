@@ -53,7 +53,9 @@ class AccountController extends Controller
                 'message' => __('message.account.createFail'),
             ], 400);
         }
-        return response()->json($account,200);
+//        return response()->json($account,200);
+        $accounts = $this->account_service->getAccountByRole($request->input('role_id'));
+        return view('admin')->with(['accounts' => $accounts]);
     }
 
     /**
@@ -63,8 +65,19 @@ class AccountController extends Controller
     public function index($id)
     {
         $accounts = $this->account_service->getAccountByRole($id);
-        return view('admin')->with(['members' => $accounts]);
+        return view('admin')->with(['accounts' => $accounts]);
 //        return response()->json($accounts, 200);
+    }
+
+
+    /**
+     * show account by id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $account = $this->account_service->getAccountById($id);
+        return response()->json($account, 200);
     }
 
     /**
@@ -99,7 +112,9 @@ class AccountController extends Controller
                 'message' => __('message.account.updateFail'),
             ], 400);
         }
-        return response()->json($account, 201);
+//        return response()->json($account, 201);
+        $accounts = $this->account_service->getAccountByRole($request->input('role_id'));
+        return view('admin')->with(['accounts' => $accounts]);
     }
 
     /**
@@ -118,8 +133,12 @@ class AccountController extends Controller
             ], 400);
         }
 
+        $account = $this->account_service->getAccountById($id);
+
         $account = $this->account_service->destroy($id);
-        return response()->json(__('message.account.deleteSuccess'), 201);
+        $accounts = $this->account_service->getAccountByRole($account->role_id);
+        return view('admin')->with(['accounts' => $accounts]);
+//        return response()->json(__('message.account.deleteSuccess'), 201);
     }
 
     /**

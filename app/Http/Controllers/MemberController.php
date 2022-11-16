@@ -44,7 +44,9 @@ class MemberController extends Controller
                 'message' => "Create member failed",
             ], 400);
         }
-        return response()->json($member,200);
+//        return response()->json($member,200);
+        $members = $this->member_service->getMember();
+        return view('index')->with(['members' => $members]);
     }
 
     /**
@@ -65,15 +67,13 @@ class MemberController extends Controller
      */
     public function show($id)
     {
-
         $member = $this->member_service->getMemberById($id);
-
         if (!$member) {
             return response()->json([
                 'message' => "show fail",
             ], 400);
         }
-        return response()->json($member, 201);
+        return response()->json($member, 200);
     }
 
     /**
@@ -85,6 +85,7 @@ class MemberController extends Controller
     public function update(Request $request, $id)
     {
         $exists = $this->member_service->isIdExistsMember($id);
+
         if (!$exists) {
             return response()->json([
                 'message' => "Id error",
@@ -98,6 +99,7 @@ class MemberController extends Controller
             'status'=>$request->input('status'),
             'address'=>$request->input('address')
         ];
+
         $this->member_service->updateMember($member_data, $id);
         $member = $this->member_service->getMemberById($id);
 
@@ -106,7 +108,9 @@ class MemberController extends Controller
                 'message' => "update fail",
             ], 400);
         }
-        return response()->json($member, 201);
+//        return response()->json($member, 201);
+        $members = $this->member_service->getMember();
+        return view('index')->with(['members' => $members]);
     }
 
     /**
@@ -126,7 +130,9 @@ class MemberController extends Controller
         }
 
         $member = $this->member_service->destroy($id);
-        return response()->json('Success', 201);
+//        return response()->json('Success', 201);
+        $members = $this->member_service->getMember();
+        return view('index')->with(['members' => $members]);
     }
 
 }
