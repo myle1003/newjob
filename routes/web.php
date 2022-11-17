@@ -29,3 +29,6 @@ Route::get('/accounts/{id}', [AccountController::class, 'index'])->name('indexAc
 Route::get('/account/{id}', [AccountController::class, 'show'])->name('showAccount');
 Route::post('/account/{id}', [AccountController::class, 'update'])->name('updateAccount');
 Route::delete('/account/{id}', [AccountController::class, 'destroy'])->name('destroyAccount');
+Route::get('/authlogin', [AccountController::class, 'getlogin']);
+Route::post('/authlogin', [AccountController::class, 'login'])->name('login');
+Route::get('/user', [AccountController::class, 'index'])->name('indexAccount');

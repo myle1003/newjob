@@ -66,6 +66,7 @@
                         </p>
                     </a>
                 </li>
+                @can('Create member')
                 <li class="nav-item">
                     <a href="{{route('indexAccount','1')}}" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
@@ -75,7 +76,7 @@
                         </p>
                     </a>
                 </li>
-
+                @endcan
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

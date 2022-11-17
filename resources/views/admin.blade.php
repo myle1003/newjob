@@ -35,8 +35,8 @@
                                 <td> {{$account->phone}}</td>
                                 <td> {{$account->gender}}</td>
                                 <td> {{$account->status}}</td>
-                                <td> {{$account->role_id}}</td>
                                 <td> {{$account->address}}</td>
+                                <td> {{$account->role_id}}</td>
                                 <td>
                                     <a href="#" id="{{$account->id}}" class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editAccountModal{{$account->id}}"><i class="bi-pencil-square h4"></i></a>
                                     <a href="#" id="{{$account->id}}" class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i></a>
@@ -137,6 +137,10 @@
                         <div class="my-2">
                             <label for="role_id">Role</label>
                             <input type="text" name="role_id" class="form-control" placeholder="Role_id" required>
+                        </div>
+                        <div class="my-2">
+                            <label for="password">Passwprd</label>
+                            <input type="text" name="password" class="form-control" placeholder="Password" required>
                         </div>
                     </div>
                     <div class="modal-footer">
