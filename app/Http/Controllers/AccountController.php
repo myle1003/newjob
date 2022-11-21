@@ -6,10 +6,10 @@ use App\Models\Account;
 use Illuminate\Http\Request;
 use App\Services\AccountsService;
 use App\Services\RolesService;
-// use Auth;
-use Illuminate\Support\Facades\Auth;
-// use Spatie\Permission\Models\Role;
-// use Spatie\Permission\Models\Permission;
+use Auth;
+//use Illuminate\Support\Facades\Auth;
+//use Spatie\Permission\Models\Role;
+//use Spatie\Permission\Models\Permission;
 use Session;
 
 class AccountController extends Controller
@@ -71,7 +71,6 @@ class AccountController extends Controller
    public function index($id)
    {
        $accounts = $this->account_service->getAccountByRole($id);
-    //    dd(auth()->user());
        return view('admin')->with(['accounts' => $accounts]);
 //         return response()->json($accounts, 200);
 
@@ -80,15 +79,15 @@ class AccountController extends Controller
 //     public function index()
 //     {
 // //        Role::create( ['name'=>'Admin']);
-// //        Permission::create(['name'=>'Delete admin']);
-
-//         // $role = Role::findById(1);
-//         // $permission = Permission::findById(6);
-//         // $role->givePermissionTo($permission);
+////         Permission::create(['name'=>'Delete super admin']);
+//
+//          $role = Role::findById(2);
+//          $permission = Permission::findById(5);
+//          $role->givePermissionTo($permission);
 // ////        $role->revokePermissionTo($permission);
 // //        $account = $this->account_service->getAccountByRole(2);
 // //        dd($account);
-//         dd(auth()->user());
+////         dd(auth()->user());
 //         // $account = Account::find(1);
 //         // if ($account->hasRole('Super admin')){
 //         //     echo 'Yes';
@@ -97,7 +96,7 @@ class AccountController extends Controller
 //         // };
 // //        dd($account);
 // //        $account->assignRole('Admin');
-
+//
 //         $accounts = $this->account_service->getAccountByRole(1);
 //         return view('admin')->with(['accounts' => $accounts]);
 // //        return view('permission');
@@ -191,18 +190,21 @@ class AccountController extends Controller
            'password'=>$password
        ];
         // $is_account_exists = $this->account_service->isIdExistsAccountWithPhoneAndPassword($phone, $password);
-   if(Auth::attempt($arr)){
-    dd(Auth::attempt($arr));
-        // if (!$is_account_exists) {
+   if(!Auth::attempt($arr)){
+//         if (!$is_account_exists) {
 //            return response()->json([
 //                'message' => __('message.account.loginFail'),
 //            ], 401);
             return view('login');
         }
-//        dd(auth()->user());
+        $id = auth()->user()->id;
 // dd(Auth::attempt($arr));
-        $accounts = $this->account_service->getAccountByRole(1);
-        return view('admin')->with(['accounts' => $accounts]);
+        $account = $this->account_service->getAccountById($id);
+        $role_id = $account->role_id;
+        if($role_id == 1){
+            return redirect('/accounts/1');
+        }
+        return redirect('/accounts/2');
 //        return response()->json([
 //            'message' => __('message.account.loginSuccess'),
 //        ], 200);
