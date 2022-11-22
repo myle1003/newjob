@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <body class="bg-light">
     <div class="container">
         <div class="row my-5">
@@ -13,8 +13,10 @@
                 <div class="card shadow">
                     <div class="card-header bg-danger d-flex justify-content-between align-items-center">
                         <h3 class="text-light">Manage Member</h3>
+                        @can('Create member')
                         <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addMemberModal"><i
                                 class="bi-plus-circle me-2"></i>Add New Member</button>
+                        @endcan
                     </div>
                     <table class="table table-striped table-sm text-center align-middle">
                         <thead>
@@ -23,21 +25,36 @@
                             <th>Phone</th>
                             <th>Gender</th>
                             <th>Status</th>
-                            <th>Adress</th>
+                            <th>Address</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach ($members as $member)
-                            <tr>
-                                <td> {{$member->name}}</td>
-                                <td> {{$member->phone}}</td>
-                                <td> {{$member->gender}}</td>
-                                <td> {{$member->status}}</td>
-                                <td> {{$member->address}}</td>
+                            <tr id="member_id_{{$member->id}}">
+                                <td id="1"> {{$member->name}}</td>
+                                <td id="2"> {{$member->phone}}</td>
+                                <td id="3">
+                                    @if($member->gender == 1)
+                                        Male
+                                    @else Female
+                                    @endif
+                                </td>
+                                <td id="4">
+                                    @if($member->staus == 1)
+                                        Doing
+                                    @else Done
+                                    @endif
+                                </td>
+                                <td id="5"> {{$member->address}}</td>
                                 <td>
+                                    @can('Edit member')
                                     <a href="#" id="{{$member->id}}" class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editMemberModal"><i class="bi-pencil-square h4"></i></a>
+                                    @endcan
+
+                                    @can('Delete member')
                                     <a href="#" id="{{$member->id}}" class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i></a>
+                                    @endcan
                                 </td>
 
                             </tr>
@@ -61,7 +78,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="#" method="post" id="edit_member_form" enctype="multipart/form-data">
-                    @csrf
+{{--                    @csrf--}}
                     <input type="hidden" name="id" id="id">
                     <div class="modal-body p-4 bg-light">
                         <div class="my-2">
@@ -74,10 +91,22 @@
                         </div>
                         <div class="my-2">
                             <label for="gender">Gender</label>
+{{--                            <div class="my-2">--}}
+{{--                            <select id="status" name="status" >--}}
+{{--                                <option value="0">Female</option>--}}
+{{--                                <option value="1">Male</option>--}}
+{{--                            </select>--}}
+{{--                                </div>--}}
                             <input type="text" name="gender" id="gender" class="form-control" placeholder="Gender" required>
                         </div>
                         <div class="my-2">
                             <label for="status">Status</label>
+{{--                            <div class="my-2">--}}
+{{--                            <select  id="status" name="status" >--}}
+{{--                                <option value="0">Doing</option>--}}
+{{--                                <option value="1">Done</option>--}}
+{{--                            </select>--}}
+{{--                            </div>--}}
                             <input type="text" name="status" id="status" class="form-control" placeholder="Status" required>
                         </div>
                         <div class="my-2">
@@ -86,7 +115,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" id="edit_member_btn" class="btn btn-success">Update Member</button>
+                            <button id="edit_member_btn" class="btn btn-success">Update Member</button>
                         </div>
                     </div>
                 </form>
@@ -105,33 +134,42 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="#" method="POST" id="add_member_form" enctype="multipart/form-data">
-                    @csrf
+{{--                    @csrf--}}
                     <div class="modal-body p-4 bg-light">
                         <input type="hidden" name="emp_id" id="emp_id">
                         <div class="my-2">
                             <label for="email">Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Name" required>
+                            <input type="text" name="name_add" id="name" class="form-control" placeholder="Name" required>
                         </div>
                         <div class="my-2">
                             <label for="phone">Phone</label>
-                            <input type="tel" name="phone" class="form-control" placeholder="Phone" required>
+                            <input type="tel" name="phone_add" id="phone" class="form-control" placeholder="Phone" required>
                         </div>
                         <div class="my-2">
                             <label for="post">Gender</label>
-                            <input type="text" name="gender" class="form-control" placeholder="Gender" required>
+{{--                            <div class="my-2" name="gender_add" >--}}
+{{--                                <input type="radio" name="element" value="0" checked="checked" /> Male--}}
+{{--                                <input type="radio" name="element" value="1" /> Female--}}
+{{--                            </div>--}}
+{{--                            <select id="gender_add" name="gender_add" onchange="showValue()">--}}
+{{--                                <option value="0">Male</option>--}}
+{{--                                <option value="1">Female</option>--}}
+{{--                            </select>--}}
+{{--                            <div id="results"></div>--}}
+                            <input type="text" name="gender_add" id="gender" class="form-control" placeholder="Gender" required>
                         </div>
                         <div class="my-2">
                             <label for="avatar">Status</label>
-                            <input type="text" name="status" class="form-control" placeholder="Status" required>
+                            <input type="text" name="status_add" id="status" class="form-control" placeholder="Status" required>
                         </div>
                         <div class="my-2">
-                            <label for="avatar">Adress</label>
-                            <input type="text" name="address" class="form-control" placeholder="Adress" required>
+                            <label for="avatar">Address</label>
+                            <input type="text" name="address_add" id="address" class="form-control" placeholder="Address" required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" id="add_member_btn" class="btn btn-primary">Add Member</button>
+                        <button type="button" id="add_member_btn" class="btn btn-primary">Add Member</button>
                     </div>
                 </form>
             </div>
@@ -147,35 +185,54 @@
         $(function() {
 
             // update employee ajax request
-            $("#edit_member_btn").submit(function(e) {
-                console.log("#33");
+            $("#edit_member_btn").click(function(e) {
                 e.preventDefault();
-                const fd = new FormData(this);
+                let name = $("input[name=name]").val();
+                let phone = $("input[name=phone]").val();
+                let gender = $("input[name=gender]").val();
+                let status = $("input[name=status]").val();
+                let address = $("input[name=address]").val();
                 let id = $("input[name=id]").val();
-                console.log(fd,id)
+                console.log(name)
                 $("#edit_member_btn").text('Updating...');
                 let url = '{{ route('updateMember',':id')}}';
                 url = url.replace(':id', id);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
                 $.ajax({
                     url: url,
                     method: 'post',
-                    data: fd,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
+                    data: {
+                        name:name,
+                        phone:phone,
+                        gender:gender,
+                        status:status,
+                        address:address
+                    },
                     dataType: 'json',
-                    success: function (response) {
-                        if (response.status == 201) {
-                            Swal.fire(
-                                'Updated!',
-                                'Employee Updated Successfully!',
-                                'success'
-                            )
+
+                    success:function(response){
+                        console.log(response);
+                        if(response) {
+                            $('.success').text(response.success);
+                            $("#edit_member_btn").text('Update Employee');
+                            $("#edit_member_form")[0].reset();
+                            $("#editMemberModal").modal('hide');
+                            $("#member_id_"+id +' #1').text(name);
+                            $("#member_id_"+id +' #2').text(phone);
+                            $("#member_id_"+id +' #3').text(gender);
+                            $("#member_id_"+id +' #4').text(status);
+                            $("#member_id_"+id +' #5').text(address);
                         }
-                        $("#edit_member_btn").text('Update Employee');
-                        $("#edit_member_form")[0].reset();
-                        $("#editMemberModal").modal('hide');
-                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
                 });
             });
 
@@ -186,6 +243,11 @@
                 // console.log(id);
                 let url = '{{ route('showMember',':id')}}';
                 url = url.replace(':id', id);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.ajax({
                     url: url,
                     method: 'get',
@@ -204,32 +266,48 @@
 
 
             // add new member ajax request
-            $("#add_member_btn").submit(function(e) {
+            $("#add_member_btn").click(function(e) {
                 e.preventDefault();
-                const fd = new FormData(this);
+                let name = $("input[name=name_add]").val();
+                let phone = $("input[name=phone_add]").val();
+                let gender = $("input[name=gender_add]").val();
+                let status = $("input[name=status_add]").val();
+                let address = $("input[name=address_add]").val();
+                console.log( gender)
                 $("#add_member_btn").text('Adding...');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
                 $.ajax({
                     url: '{{ route('storeMember') }}',
                     method: 'post',
-                    data: fd,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
+                    data: {
+                        name:name,
+                        phone:phone,
+                        gender:gender,
+                        status:status,
+                        address:address
+                    },
                     dataType: 'json',
-                    success: function(response) {
-                        if (response.status == 200) {
-                            Swal.fire(
-                                'Added!',
-                                'Member Added Successfully!',
-                                'success'
-                            )
+                    success:function(response){
+                        console.log(response);
+                        if(response) {
+                            $('.success').text(response.success);
+                            $("#add_member_btn").text('Add Member');
+                            $("#add_member_form")[0].reset();
+                            $("#addMemberModal").modal('hide');
+                            $('tbody').append('<tr id="member_id_'+response.id+'"><td id="1">'+name+'</td><td id="2">'+phone+'</td><td id="3">'+gender+'</td>' +
+                                '<td id="4">'+status+'</td><td id="5">'+address+'</td><td>'+
+                                '<a href="#" id="'+ response.id +'"  class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editMemberModal"><i class="bi-pencil-square h4"></i></a> ' +
+                                '<a href="#" id="'+ response.id +'" class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i></a> </td></td></tr>')
                         }
-                        $("#add_member_btn").text('Add Member');
-                        $("#add_member_form")[0].reset();
-                        $("#addMemberModal").modal('hide');
+                    },
+                    error: function(error) {
+                        console.log(error);
                     }
                 });
-
 
             });
 
@@ -261,11 +339,13 @@
                             },
                             success: function(response) {
                                 console.log(response);
+                                $("#member_id_" + id).remove();
                                 Swal.fire(
                                     'Deleted!',
                                     'Your file has been deleted.',
                                     'success'
                                 )
+                                $("#member_id_"+id).remove()
                             }
                         });
                     }

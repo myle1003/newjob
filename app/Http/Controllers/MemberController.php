@@ -44,10 +44,8 @@ class MemberController extends Controller
                 'message' => "Create member failed",
             ], 400);
         }
-        return redirect('/members');
-//        return response()->json($member,200);
-//        $members = $this->member_service->getMember();
-//        return view('index')->with(['members' => $members]);
+        return response()->json($member,200);
+//        return response()->json(['success'=>'Create member successfully']);
     }
 
     /**
@@ -56,9 +54,8 @@ class MemberController extends Controller
      */
     public function index()
     {
-//        dd(auth()->user());
         $members = $this->member_service->getMember();
-        return view('index')->with(['members' => $members]);
+        return view('index2')->with(['members' => $members]);
     }
 
     /**
@@ -109,10 +106,7 @@ class MemberController extends Controller
                 'message' => "update fail",
             ], 400);
         }
-        return redirect('/members');
-//        return response()->json($member, 201);
-//        $members = $this->member_service->getMember();
-//        return view('index')->with(['members' => $members]);
+        return response()->json(['success'=>'Update member successfully']);
     }
 
     /**
@@ -132,7 +126,7 @@ class MemberController extends Controller
         }
 
         $member = $this->member_service->destroy($id);
-        return redirect('/members');
+        return response()->json(['success'=>'Delete member successfully']);
 //        return response()->json('Success', 201);
 //        $members = $this->member_service->getMember();
 //        return view('index')->with(['members' => $members]);

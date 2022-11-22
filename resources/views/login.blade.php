@@ -25,7 +25,7 @@
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>
 
-                <form action="{{route('login')}}" method="POST"  enctype="multipart/form-data">
+                <form action="{{route('login')}}" method="POST">
                     @csrf
                     <div class="modal-body p-4 bg-light">
                         <div class="my-2">

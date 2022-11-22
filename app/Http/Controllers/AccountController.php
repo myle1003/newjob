@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 use App\Services\AccountsService;
 use App\Services\RolesService;
 use Auth;
-//use Illuminate\Support\Facades\Auth;
-//use Spatie\Permission\Models\Role;
-//use Spatie\Permission\Models\Permission;
 use Session;
 
 class AccountController extends Controller
@@ -30,7 +27,6 @@ class AccountController extends Controller
     ) {
         $this->account_service = $account_service;
         $this->role_service = $role_service;
-        $this->middleware('permission:Create account',['only'=>['store','update']]);
     }
 
     /**
@@ -40,7 +36,6 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        dd(23423);
         $account_data = [
             'name'=>$request->input('name'),
             'phone'=>$request->input('phone'),
@@ -59,9 +54,7 @@ class AccountController extends Controller
                 'message' => __('message.account.createFail'),
             ], 400);
         }
-//        return response()->json($account,200);
-        $accounts = $this->account_service->getAccountByRole($request->input('role_id'));
-        return view('admin')->with(['accounts' => $accounts]);
+        return response()->json($account,200);
     }
 
     /**
@@ -71,36 +64,10 @@ class AccountController extends Controller
    public function index($id)
    {
        $accounts = $this->account_service->getAccountByRole($id);
-       return view('admin')->with(['accounts' => $accounts]);
-//         return response()->json($accounts, 200);
+       return view('admin2')->with(['accounts' => $accounts]);
 
    }
 
-//     public function index()
-//     {
-// //        Role::create( ['name'=>'Admin']);
-////         Permission::create(['name'=>'Delete super admin']);
-//
-//          $role = Role::findById(2);
-//          $permission = Permission::findById(5);
-//          $role->givePermissionTo($permission);
-// ////        $role->revokePermissionTo($permission);
-// //        $account = $this->account_service->getAccountByRole(2);
-// //        dd($account);
-////         dd(auth()->user());
-//         // $account = Account::find(1);
-//         // if ($account->hasRole('Super admin')){
-//         //     echo 'Yes';
-//         // }else {
-//         //     echo 'No';
-//         // };
-// //        dd($account);
-// //        $account->assignRole('Admin');
-//
-//         $accounts = $this->account_service->getAccountByRole(1);
-//         return view('admin')->with(['accounts' => $accounts]);
-// //        return view('permission');
-//     }
 
 
 
@@ -147,9 +114,10 @@ class AccountController extends Controller
                 'message' => __('message.account.updateFail'),
             ], 400);
         }
+        return response()->json(['success'=>'Update account successfully']);
 //        return response()->json($account, 201);
-        $accounts = $this->account_service->getAccountByRole($request->input('role_id'));
-        return view('admin')->with(['accounts' => $accounts]);
+//        $accounts = $this->account_service->getAccountByRole($request->input('role_id'));
+//        return view('admin')->with(['accounts' => $accounts]);
     }
 
     /**
@@ -171,8 +139,9 @@ class AccountController extends Controller
         $account = $this->account_service->getAccountById($id);
 
         $account = $this->account_service->destroy($id);
-        $accounts = $this->account_service->getAccountByRole($account->role_id);
-        return view('admin')->with(['accounts' => $accounts]);
+        return response()->json(['success'=>'Delete account successfully']);
+//        $accounts = $this->account_service->getAccountByRole($account->role_id);
+//        return view('admin')->with(['accounts' => $accounts]);
 //        return response()->json(__('message.account.deleteSuccess'), 201);
     }
 
@@ -183,33 +152,24 @@ class AccountController extends Controller
      */
     public function login(Request $request)
     {
-        $phone = $request->input(['phone']);
-        $password = $request->input(['password']);
+       $phone = $request->input(['phone']);
+       $password = $request->input(['password']);
        $arr=[
            'phone'=>$phone,
            'password'=>$password
        ];
-        // $is_account_exists = $this->account_service->isIdExistsAccountWithPhoneAndPassword($phone, $password);
-   if(!Auth::attempt($arr)){
-//         if (!$is_account_exists) {
-//            return response()->json([
-//                'message' => __('message.account.loginFail'),
-//            ], 401);
+       if(!Auth::attempt($arr))
+       {
             return view('login');
         }
         $id = auth()->user()->id;
-// dd(Auth::attempt($arr));
+//       dd(auth()->user()->role_id);
         $account = $this->account_service->getAccountById($id);
         $role_id = $account->role_id;
         if($role_id == 1){
             return redirect('/accounts/1');
         }
         return redirect('/accounts/2');
-//        return response()->json([
-//            'message' => __('message.account.loginSuccess'),
-//        ], 200);
-
-//        if(Auth::attempt(['phone']))
     }
 
     public function getlogin(){
