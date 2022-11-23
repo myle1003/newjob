@@ -97,7 +97,7 @@ class PermissionController extends Controller
     public function show()
     {
         $roles = RoleHasPermission::select('*')
-            ->where('role_id','=',1)
+            ->where('role_id','=',2)
             ->orderBy('permission_id')
             ->get();
 //dd($roles);

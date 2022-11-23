@@ -13,8 +13,7 @@
                 <div class="card shadow">
                     <div class="card-header bg-danger d-flex justify-content-between align-items-center">
                         <h3 class="text-light">Permission Super Admin</h3>
-                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addAccountModal"><i
-                                class="bi-plus-circle me-2"></i>Add New Account</button>
+
                     </div>
                     <form action="#" method="POST" id="permission" enctype="multipart/form-data">
                         <div class="modal-body p-4 bg-light">

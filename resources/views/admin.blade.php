@@ -160,8 +160,6 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(function() {
-
-
             // delete employee ajax request
             $(document).on('click', '.deleteIcon', function(e) {
                 e.preventDefault();
