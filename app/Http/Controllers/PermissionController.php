@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\RoleHasPermission;
+use App\Services\PermissionService;
 use Illuminate\Http\Request;
 use App\Services\AccountsService;
 use App\Services\RolesService;
@@ -15,22 +17,15 @@ use Session;
 class PermissionController extends Controller
 {
     /**
-     * @var AccountsService
+     * @var PermissionService
      */
-    private $account_service;
+    private $permission_service;
 
-    /**
-     * @var RolesService
-     */
-    private $role_service;
-
-    public function __construct(
-        AccountsService $account_service,
-        RolesService $role_service
-    ) {
-        $this->account_service = $account_service;
-        $this->role_service = $role_service;
-    }
+//    public function __construct(
+//        PermissionService $permission_service
+//    ) {
+//        $this->$permission_service = $permission_service;
+//    }
 
      public function index(Request $request)
      {
@@ -57,6 +52,7 @@ class PermissionController extends Controller
                  $role->revokePermissionTo($permission);
              }
          }
+         return response()->json(['success'=>'Update permission successfully']);
  //        Role::create( ['name'=>'Admin']);
 //         Permission::create(['name'=>'Delete super admin']);
 
@@ -76,14 +72,43 @@ class PermissionController extends Controller
          // };
  //        dd($account);
  //        $account->assignRole('Admin');
-
-         $accounts = $this->account_service->getAccountByRole(1);
-         return view('admin2')->with(['accounts' => $accounts]);
+//
+//         $accounts = $this->account_service->getAccountByRole(1);
+//         return view('admin2')->with(['accounts' => $accounts]);
  //        return view('permission');
      }
 
-    public function getRole(){
-        return view('permission');
+    public function update(Request $request,$id)
+    {
+        $role_data= $request->input('role');
+        $permission_data = $request->input('per_mem_add');
+
+        $role = Role::findById($role_data);
+        $permission = Permission::findById($id);
+        if($permission_data==1){
+            $role->givePermissionTo($permission);
+        } else {
+            $role->revokePermissionTo($permission);
+        }
+
+        return response()->json(['success'=>'Update permission successfully']);
+    }
+
+    public function show()
+    {
+        $roles = RoleHasPermission::select('*')
+            ->where('role_id','=',1)
+            ->orderBy('permission_id')
+            ->get();
+//dd($roles);
+        return view('permissionAdmin2')->with(['roles' => $roles]);
+    }
+
+    public function getPermissonAdmin(){
+        return view('permissionAdmin2');
+    }
+    public function getPermissonSuperadmin(){
+        return view('permission2');
     }
 
 

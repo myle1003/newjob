@@ -14,13 +14,10 @@
                     <div class="card-header bg-danger d-flex justify-content-between align-items-center">
                         <h3 class="text-light">Manage Account</h3>
                         @can('Create super admin')
-                        <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addAccountModal"><i
-                                class="bi-plus-circle me-2"></i>Add New Super Admin</button>
-                        @endcan
-                        @can('Create admin')
                             <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addAccountModal"><i
-                                    class="bi-plus-circle me-2"></i>Add New Admin</button>
+                                    class="bi-plus-circle me-2"></i>Add New Super Admin</button>
                         @endcan
+
                     </div>
                     <table class="table table-striped table-sm text-center align-middle">
                         <thead>
@@ -57,29 +54,21 @@
                                         Super admin
                                     @else Admin
                                     @endif
-{{--                                    {{$account->role_id}}--}}
+                                    {{--                                    {{$account->role_id}}--}}
                                 </td>
                                 <td>
                                     @can('Edit super admin')
-                                    <a href="#" id="{{$account->id}}" class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editAccountModal"><i class="bi-pencil-square h4"></i></a>
-                                    @else
-                                        @can('Edit admin')
-                                            <a href="#" id="{{$account->id}}" class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editAccountModal"><i class="bi-pencil-square h4"></i></a>
-                                        @endcan
+                                        <a href="#" id="{{$account->id}}" class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editAccountModal"><i class="bi-pencil-square h4"></i></a>
                                     @endcan
                                     @can('Delete super admin')
                                         <a href="#" id="{{$account->id}}" class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i></a>
-                                        @else
-                                            @can('Delete admin')
-                                                <a href="#" id="{{$account->id}}" class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i></a>
-                                            @endcan
-                                        @endcan
+                                    @endcan
                                 </td>
 
                             </tr>
                             {{-- edit employee modal start --}}
                             <form action="#" method="post" id="edit_account_form" enctype="multipart/form-data">
-{{--                                @csrf--}}
+                                {{--                                @csrf--}}
                                 <div class="modal fade" id="editAccountModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                                      data-bs-backdrop="static" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
@@ -145,7 +134,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="#" method="POST" id="add_account_form" enctype="multipart/form-data">
-{{--                    @csrf--}}
+                    {{--                    @csrf--}}
                     <div class="modal-body p-4 bg-light">
                         <input type="hidden" name="emp_id" id="emp_id">
                         <div class="my-2">
@@ -285,7 +274,6 @@
             // add new member ajax request
             $("#add_account_btn").click(function(e) {
                 e.preventDefault();
-                console.log(444);
                 let name = $("input[name=name_add]").val();
                 let phone = $("input[name=phone_add]").val();
                 let gender = $("input[name=gender_add]").val();

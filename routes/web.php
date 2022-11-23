@@ -30,9 +30,13 @@ use App\Http\Controllers\PermissionController;
         Route::post('/account/{id}', [AccountController::class, 'update'])->name('updateAccount');
         Route::delete('/account/{id}', [AccountController::class, 'destroy'])->name('destroyAccount');
 
+        Route::get('/permission/admin', [PermissionController::class, 'getPermissonAdmin'])->name('getPermissonAdmin');
+        Route::get('/permission/role', [PermissionController::class, 'show'])->name('show');
+        Route::get('/permission/superadmin', [PermissionController::class, 'getPermissonSuperadmin'])->name('getPermissonSuperadmin');
+        Route::post('/permission', [PermissionController::class, 'index'])->name('indexPermission');
+        Route::post('/permission/{id}', [PermissionController::class, 'update'])->name('updatePermission');
 
     });
 Route::post('/authlogin', [AccountController::class, 'login'])->name('login');
 Route::get('/', [AccountController::class, 'getlogin']);
-Route::get('/permission', [PermissionController::class, 'getRole']);
-Route::post('/permission', [PermissionController::class, 'index'])->name('indexPermission');
+

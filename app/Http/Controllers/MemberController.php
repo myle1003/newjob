@@ -55,6 +55,7 @@ class MemberController extends Controller
     public function index()
     {
         $members = $this->member_service->getMember();
+//        dd($members);
         return view('index2')->with(['members' => $members]);
     }
 

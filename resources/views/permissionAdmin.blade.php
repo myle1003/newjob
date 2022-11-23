@@ -12,32 +12,15 @@
             <div class="col-lg-12">
                 <div class="card shadow">
                     <div class="card-header bg-danger d-flex justify-content-between align-items-center">
-                        <h3 class="text-light">Permission Super Admin</h3>
+                        <h3 class="text-light">Permission Admin</h3>
                         <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#addAccountModal"><i
                                 class="bi-plus-circle me-2"></i>Add New Account</button>
                     </div>
                     <form action="#" method="POST" id="permission" enctype="multipart/form-data">
-                        {{--                    @csrf--}}
-{{--                        <table>--}}
-{{--                            <tr>--}}
-{{--                                <td>--}}
-{{--                                    <label for="create_member">Create member</label>--}}
-{{--                                </td>--}}
-{{--                                <td>--}}
-{{--                                    <div class="form-check form-switch">--}}
-{{--                                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">--}}
-{{--                                        <label class="form-check-label" for="flexSwitchCheckDefault">Use</label>--}}
-{{--                                    </div>--}}
-{{--                                </td>--}}
-{{--                            </tr>--}}
-{{--                        </table>--}}
                         <div class="modal-body p-4 bg-light">
                             <input type="hidden" name="emp_id" id="emp_id">
                             <div class="my-2">
                                 <label for="create_member">Create member</label>
-{{--                                <div class="task-cbx" id="1">--}}
-{{--                                    <input type="checkbox" unchecked>--}}
-{{--                                </div>--}}
                                 <select id="add_mem">
                                     <option value="1">Use</option>
                                     <option value="0">Unuse</option>
@@ -84,31 +67,8 @@
                                 </select>
 
                             </div>
-                            <input type="hidden" name="role" id="role" value="1">
-                            <div class="my-2">
-                                <label for="create_member">Create super admin</label>
-                                <select id="add_sad">
-                                    <option value="1">Use</option>
-                                    <option value="0">Unuse</option>
-                                </select>
+                            <input type="hidden" name="role" id="role" value="2">
 
-                            </div>
-                            <div class="my-2">
-                                <label for="create_member">Update super admin</label>
-                                <select id="edit_sad">
-                                    <option value="1">Use</option>
-                                    <option value="0">Unuse</option>
-                                </select>
-
-                            </div>
-                            <div class="my-2">
-                                <label for="create_member">Delete super admin</label>
-                                <select id="del_sad">
-                                    <option value="1">Use</option>
-                                    <option value="0">Unuse</option>
-                                </select>
-
-                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="add_permission_btn" class="btn btn-primary">Add permission</button>
@@ -144,9 +104,9 @@
                 let per_mem_add = $( "#add_mem" ).val();
                 let per_mem_edit = $( "#edit_mem" ).val();
                 let per_mem_del = $( "#del_mem" ).val();
-                let per_ad_add = $( "#add_ad" ).val();
+                let per_ad_add = $( "#add_ad_" ).val();
                 let per_ad_edit = $( "#edit_ad" ).val();
-                let per_ad_del = $( "#del_ad" ).val();
+                let per_ad_del = $( "#del_mem" ).val();
                 let per_sad_add = $( "#add_sad" ).val();
                 let per_sad_edit = $( "#edit_sad" ).val();
                 let per_sad_del = $( "#del_sad" ).val();
@@ -182,7 +142,6 @@
                             $('.success').text(response.success);
                             console.log("success")
                             $("#add_permission_btn").text('Add permission');
-
                         }
                     },
                     error: function(error) {
