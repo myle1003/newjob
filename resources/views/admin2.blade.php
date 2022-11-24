@@ -46,7 +46,7 @@
                                     @endif
                                 </td>
                                 <td id="4">
-                                    @if($account->staus == 1)
+                                    @if($account->status == 1)
                                         Doing
                                     @else Done
                                     @endif
@@ -101,11 +101,19 @@
                                                 </div>
                                                 <div class="my-2">
                                                     <label for="gender">Gender</label>
-                                                    <input type="text" name="gender" id="gender" class="form-control" placeholder="Gender" value="{{$account->gender}}" required>
+                                                    <select name="gender" id="gender">
+                                                        <option value="1">Male</option>
+                                                        <option value="0">Female</option>
+                                                    </select>
+{{--                                                    <input type="text" name="gender" id="gender" class="form-control" placeholder="Gender" value="{{$account->gender}}" required>--}}
                                                 </div>
                                                 <div class="my-2">
                                                     <label for="status">Status</label>
-                                                    <input type="text" name="status" id="status" class="form-control" placeholder="Status" value="{{$account->status}}" required>
+                                                    <select name="status" id="status">
+                                                        <option value="1">Doing</option>
+                                                        <option value="0">Done</option>
+                                                    </select>
+{{--                                                    <input type="text" name="status" id="status" class="form-control" placeholder="Status" value="{{$account->status}}" required>--}}
                                                 </div>
                                                 <div class="my-2">
                                                     <label for="address">Address</label>
@@ -158,11 +166,19 @@
                         </div>
                         <div class="my-2">
                             <label for="gender">Gender</label>
-                            <input type="text" name="gender_add" class="form-control" placeholder="Gender" required>
+                            <select name="gender_add" id="gender_add">
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+{{--                            <input type="text" name="gender_add" class="form-control" placeholder="Gender" required>--}}
                         </div>
                         <div class="my-2">
                             <label for="status">Status</label>
-                            <input type="text" name="status_add" class="form-control" placeholder="Status" required>
+                            <select name="status_add" id="status_add">
+                                <option value="1">Doing</option>
+                                <option value="0">Done</option>
+                            </select>
+{{--                            <input type="text" name="status_add" class="form-control" placeholder="Status" required>--}}
                         </div>
                         <div class="my-2">
                             <label for="address">Address</label>
@@ -170,7 +186,11 @@
                         </div>
                         <div class="my-2">
                             <label for="role_id">Role</label>
-                            <input type="text" name="role_id_add" class="form-control" placeholder="Role_id" required>
+                            <select name="role_add" id="role_add">
+                                <option value="2">Admin</option>
+                                <option value="1">Super Admin</option>
+                            </select>
+{{--                            <input type="text" name="role_id_add" class="form-control" placeholder="Role_id" required>--}}
                         </div>
                         <div class="my-2">
                             <label for="password">Password</label>
@@ -202,8 +222,8 @@
                 console.log(8888);
                 let name = $("input[name=name]").val();
                 let phone = $("input[name=phone]").val();
-                let gender = $("input[name=gender]").val();
-                let status = $("input[name=status]").val();
+                let gender = $( "#gender" ).val();
+                let status = $( "#status" ).val();
                 let address = $("input[name=address]").val();
                 let role_id = $("input[name=role_id]").val();
                 let password = $("input[name=password]").val();
@@ -240,6 +260,18 @@
                             $("#edit_account_btn").text('Update Account');
                             $("#edit_account_form")[0].reset();
                             $("#editAccountModal").modal('hide');
+                            if(gender==1){
+                                gender='Male'
+                            }
+                            else{
+                                gender='Female'
+                            }
+                            if(status==1){
+                                status='Doing'
+                            }
+                            else{
+                                status='Done'
+                            }
                             $("#account_id_"+id +' #1').text(name);
                             $("#account_id_"+id +' #2').text(phone);
                             $("#account_id_"+id +' #3').text(gender);
@@ -288,10 +320,10 @@
                 console.log(444);
                 let name = $("input[name=name_add]").val();
                 let phone = $("input[name=phone_add]").val();
-                let gender = $("input[name=gender_add]").val();
-                let status = $("input[name=status_add]").val();
+                let gender = $( "#gender_add" ).val();
+                let status = $( "#status_add" ).val();
                 let address = $("input[name=address_add]").val();
-                let role_id = $("input[name=role_id_add]").val();
+                let role_id = $( "#role_add" ).val();
                 let password = $("input[name=password_add]").val();
                 $("#add_member_btn").text('Adding...');
                 $.ajaxSetup({
@@ -319,6 +351,24 @@
                             $("#add_account_btn").text('Add Member');
                             $("#add_account_form")[0].reset();
                             $("#addAccountModal").modal('hide');
+                            if(gender==1){
+                                gender='Male'
+                            }
+                            else{
+                                gender='Female'
+                            }
+                            if(status==1){
+                                status='Doing'
+                            }
+                            else{
+                                status='Done'
+                            }
+                            if(role_id==2){
+                                role_id='Admin'
+                            }
+                            else{
+                                role_id='Super admin'
+                            }
                             $('tbody').append('<tr id="account_id_'+response.id+'"><td id="1">'+name+'</td><td id="2">'+phone+'</td><td id="3">'+gender+'</td>' +
                                 '<td id="4">'+status+'</td><td id="5">'+address+'</td><td id="6">'+role_id+'</td><td>' +
                                 '<a href="#" id="'+ response.id +'"  class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editAccountModal"><i class="bi-pencil-square h4"></i></a> ' +

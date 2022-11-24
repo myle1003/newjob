@@ -41,7 +41,7 @@
                                     @endif
                                 </td>
                                 <td id="4">
-                                    @if($member->staus == 1)
+                                    @if($member->status == 1)
                                         Doing
                                     @else Done
                                     @endif
@@ -97,7 +97,11 @@
 {{--                                <option value="1">Male</option>--}}
 {{--                            </select>--}}
 {{--                                </div>--}}
-                            <input type="text" name="gender" id="gender" class="form-control" placeholder="Gender" required>
+                            <select name="gender" id="gender">
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+{{--                            <input type="text" name="gender" id="gender" class="form-control" placeholder="Gender" required>--}}
                         </div>
                         <div class="my-2">
                             <label for="status">Status</label>
@@ -107,7 +111,11 @@
 {{--                                <option value="1">Done</option>--}}
 {{--                            </select>--}}
 {{--                            </div>--}}
-                            <input type="text" name="status" id="status" class="form-control" placeholder="Status" required>
+                            <select name="status" id="status">
+                                <option value="1">Doing</option>
+                                <option value="0">Done</option>
+                            </select>
+{{--                            <input type="text" name="status" id="status" class="form-control" placeholder="Status" required>--}}
                         </div>
                         <div class="my-2">
                             <label for="address">Adress</label>
@@ -147,20 +155,19 @@
                         </div>
                         <div class="my-2">
                             <label for="post">Gender</label>
-{{--                            <div class="my-2" name="gender_add" >--}}
-{{--                                <input type="radio" name="element" value="0" checked="checked" /> Male--}}
-{{--                                <input type="radio" name="element" value="1" /> Female--}}
-{{--                            </div>--}}
-{{--                            <select id="gender_add" name="gender_add" onchange="showValue()">--}}
-{{--                                <option value="0">Male</option>--}}
-{{--                                <option value="1">Female</option>--}}
-{{--                            </select>--}}
-{{--                            <div id="results"></div>--}}
-                            <input type="text" name="gender_add" id="gender" class="form-control" placeholder="Gender" required>
+                            <select name="gender_add" id="gender_add">
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+{{--                            <input type="text" name="gender_add" id="gender" class="form-control" placeholder="Gender" required>--}}
                         </div>
                         <div class="my-2">
                             <label for="avatar">Status</label>
-                            <input type="text" name="status_add" id="status" class="form-control" placeholder="Status" required>
+                            <select name="status_add" id="status_add">
+                                <option value="1">Doing</option>
+                                <option value="0">Done</option>
+                            </select>
+{{--                            <input type="text" name="status_add" id="status" class="form-control" placeholder="Status" required>--}}
                         </div>
                         <div class="my-2">
                             <label for="avatar">Address</label>
@@ -189,8 +196,8 @@
                 e.preventDefault();
                 let name = $("input[name=name]").val();
                 let phone = $("input[name=phone]").val();
-                let gender = $("input[name=gender]").val();
-                let status = $("input[name=status]").val();
+                let gender = $( "#gender" ).val();
+                let status = $( "#status" ).val();
                 let address = $("input[name=address]").val();
                 let id = $("input[name=id]").val();
                 console.log(name)
@@ -218,6 +225,18 @@
 
                     success:function(response){
                         console.log(response);
+                        if(gender==1){
+                            gender='Male'
+                        }
+                        else{
+                            gender='Female'
+                        }
+                        if(status==1){
+                            status='Doing'
+                        }
+                        else{
+                            status='Done'
+                        }
                         if(response) {
                             $('.success').text(response.success);
                             $("#edit_member_btn").text('Update Employee');
@@ -270,8 +289,8 @@
                 e.preventDefault();
                 let name = $("input[name=name_add]").val();
                 let phone = $("input[name=phone_add]").val();
-                let gender = $("input[name=gender_add]").val();
-                let status = $("input[name=status_add]").val();
+                let gender = $( "#gender_add" ).val();
+                let status = $( "#status_add" ).val();
                 let address = $("input[name=address_add]").val();
                 console.log( gender)
                 $("#add_member_btn").text('Adding...');
@@ -298,6 +317,18 @@
                             $("#add_member_btn").text('Add Member');
                             $("#add_member_form")[0].reset();
                             $("#addMemberModal").modal('hide');
+                            if(gender){
+                                gender='Male'
+                            }
+                            else{
+                                gender='Female'
+                            }
+                            if(status){
+                                status='Doing'
+                            }
+                            else{
+                                status='Done'
+                            }
                             $('tbody').append('<tr id="member_id_'+response.id+'"><td id="1">'+name+'</td><td id="2">'+phone+'</td><td id="3">'+gender+'</td>' +
                                 '<td id="4">'+status+'</td><td id="5">'+address+'</td><td>'+
                                 '<a href="#" id="'+ response.id +'"  class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editMemberModal"><i class="bi-pencil-square h4"></i></a> ' +
