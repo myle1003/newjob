@@ -63,35 +63,43 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="{{route('indexMember')}}" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Member manage
-                        </p>
-                    </a>
-                </li>
+                @foreach ($menuItems as $menuItem)
+                    @if($menuItem->link=='null')
+                        <ul class="nav nav-treeview">
+                        @foreach ($items as $item)
+                                <li class="nav-item">
+                                    <a href="{{$item->link}}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>{{$item->name}}</p>
+                                    </a>
+                                </li>
+                        @endforeach
+                            @else
+                    @if($menuItem->name!='Super Admin manage')
+                    <li class="nav-item">
 
-                <li class="nav-item">
-                    <a href="{{route('indexAccount','2')}}" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>
-                            Admin manage
-                        </p>
-                    </a>
-                </li>
+                        <a href="{{$menuItem->link}}" class="nav-link">
+                            <i class="nav-icon fas fa-copy"></i>
+                            <p>
+                                {{$menuItem->name}}
+                            </p>
+                        </a>
+                    </li>
+                    @else
+                        @role('Super admin')
+                        <li class="nav-item">
 
-
-                @role('Super admin')
-                <li class="nav-item">
-                    <a href="{{route('indexAccount',1)}}" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
-                        <p>
-                            Super admin manage
-                        </p>
-                    </a>
-                </li>
-                @endrole
+                            <a href="{{$menuItem->link}}" class="nav-link">
+                                <i class="nav-icon fas fa-copy"></i>
+                                <p>
+                                    {{$menuItem->name}}
+                                </p>
+                            </a>
+                        </li>
+                        @endrole
+                    @endif
+                            @endif
+                @endforeach
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

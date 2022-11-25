@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
+use App\Models\MenuItem;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Services\MembersService;
@@ -55,8 +57,22 @@ class MemberController extends Controller
     public function index()
     {
         $members = $this->member_service->getMember();
+        $menuItems = MenuItem::select('*')
+            ->where('status','=','1')
+            ->get();
+        $items='';
+        foreach ($menuItems as $menuItem){
+            if($menuItem->link == 'null'){
+                $items = Item::select('*')
+                    ->where('id_menuItem','=',$menuItem->id)
+                    ->get();
+            }
+        }
+        return view('index2')->with(['members' => $members,
+            'menuItems' =>$menuItems,
+            'items'=>$items]);
 //        dd($members);
-        return view('index2')->with(['members' => $members]);
+//        return view('index2')->with(['members' => $members]);
     }
 
     /**

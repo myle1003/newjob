@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use App\Services\AccountsService;
 use App\Services\RolesService;
@@ -64,7 +65,11 @@ class AccountController extends Controller
    public function index($id)
    {
        $accounts = $this->account_service->getAccountByRole($id);
-       return view('admin2')->with(['accounts' => $accounts]);
+       $menuItems = MenuItem::select('*')
+           ->where('status','=','1')
+           ->get();
+       return view('admin2')->with(['accounts' => $accounts,
+                                          'menuItems' =>$menuItems]);
 
    }
 

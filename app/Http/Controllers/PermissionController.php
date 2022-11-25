@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\MenuItem;
 use App\Models\RoleHasPermission;
 use App\Services\PermissionService;
 use Illuminate\Http\Request;
@@ -101,14 +102,25 @@ class PermissionController extends Controller
             ->orderBy('permission_id')
             ->get();
 //dd($roles);
-        return view('permissionAdmin2')->with(['roles' => $roles]);
+        $menuItems = MenuItem::select('*')
+            ->where('status','=','1')
+            ->get();
+        return view('permissionAdmin2')->with(['roles' => $roles,'menuItems' =>$menuItems]);
     }
 
     public function getPermissonAdmin(){
-        return view('permissionAdmin2');
+        $menuItems = MenuItem::select('*')
+            ->where('status','=','1')
+            ->get();
+        return view('permissionAdmin2')->with(['menuItems' =>$menuItems]);
+//        return view('permissionAdmin2');
     }
     public function getPermissonSuperadmin(){
-        return view('permission2');
+        $menuItems = MenuItem::select('*')
+            ->where('status','=','1')
+            ->get();
+        return view('permission2')->with(['menuItems' =>$menuItems]);
+//        return view('permission2');
     }
 
 

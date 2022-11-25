@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\MenuItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,9 @@ use App\Http\Controllers\PermissionController;
         Route::get('/permission/superadmin', [PermissionController::class, 'getPermissonSuperadmin'])->name('getPermissonSuperadmin');
         Route::post('/permission', [PermissionController::class, 'index'])->name('indexPermission');
         Route::post('/permission/{id}', [PermissionController::class, 'update'])->name('updatePermission');
+
+
+//        Route::post('/navbar', [MenuItemController::class, 'get'])->name('getMenuItem');
 
     });
 Route::post('/authlogin', [AccountController::class, 'login'])->name('login');
