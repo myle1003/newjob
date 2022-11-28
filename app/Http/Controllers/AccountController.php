@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Item;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use App\Services\AccountsService;
@@ -68,8 +69,17 @@ class AccountController extends Controller
        $menuItems = MenuItem::select('*')
            ->where('status','=','1')
            ->get();
+       $items='';
+       foreach ($menuItems as $menuItem){
+           if($menuItem->link == 'null'){
+               $items = Item::select('*')
+                   ->where('status','=','1')
+                   ->get();
+           }
+       }
        return view('admin2')->with(['accounts' => $accounts,
-                                          'menuItems' =>$menuItems]);
+                                          'menuItems' =>$menuItems,
+                                          'items'=>$items]);
 
    }
 

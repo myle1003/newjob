@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Account;
+use App\Models\Item;
 use App\Models\MenuItem;
 use App\Models\RoleHasPermission;
 use App\Services\PermissionService;
@@ -105,21 +106,45 @@ class PermissionController extends Controller
         $menuItems = MenuItem::select('*')
             ->where('status','=','1')
             ->get();
-        return view('permissionAdmin2')->with(['roles' => $roles,'menuItems' =>$menuItems]);
+        $items='';
+        foreach ($menuItems as $menuItem){
+            if($menuItem->link == 'null'){
+                $items = Item::select('*')
+                    ->where('status','=','1')
+                    ->get();
+            }
+        }
+        return view('permissionAdmin2')->with(['roles' => $roles,'menuItems' =>$menuItems, 'items'=>$items]);
     }
 
     public function getPermissonAdmin(){
         $menuItems = MenuItem::select('*')
             ->where('status','=','1')
             ->get();
-        return view('permissionAdmin2')->with(['menuItems' =>$menuItems]);
+        $items='';
+        foreach ($menuItems as $menuItem){
+            if($menuItem->link == 'null'){
+                $items = Item::select('*')
+                    ->where('status','=','1')
+                    ->get();
+            }
+        }
+        return view('permissionAdmin2')->with(['menuItems' =>$menuItems,'items'=>$items]);
 //        return view('permissionAdmin2');
     }
     public function getPermissonSuperadmin(){
         $menuItems = MenuItem::select('*')
             ->where('status','=','1')
             ->get();
-        return view('permission2')->with(['menuItems' =>$menuItems]);
+        $items='';
+        foreach ($menuItems as $menuItem){
+            if($menuItem->link == 'null'){
+                $items = Item::select('*')
+                    ->where('status','=','1')
+                    ->get();
+            }
+        }
+        return view('permission2')->with(['menuItems' =>$menuItems,'items'=>$items]);
 //        return view('permission2');
     }
 

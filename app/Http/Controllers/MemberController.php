@@ -64,7 +64,7 @@ class MemberController extends Controller
         foreach ($menuItems as $menuItem){
             if($menuItem->link == 'null'){
                 $items = Item::select('*')
-                    ->where('id_menuItem','=',$menuItem->id)
+                    ->where('status','=','1')
                     ->get();
             }
         }
