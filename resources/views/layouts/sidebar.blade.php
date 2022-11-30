@@ -39,40 +39,46 @@
 
                 @foreach ($menuItems as $menuItem)
                     @if($menuItem->link == 'null')
-                      <li class="nav-item menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-table"></i>
-                                <p>
-                                    {{$menuItem->name}}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                        @foreach ($items as $item)
-                            @if($item->id_menuItem==$menuItem->id)
-                                    @if($item->name!='Super Admin')
+                        @if($menuItem->name=='Permission')
+                                @role('Super admin')
+
+                                        <a href="#" class="nav-link active">
+                                            <i class="nav-icon fas fa-table"></i>
+                                            <p>
+                                                {{$menuItem->name}}
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+
+                                    @foreach ($items as $item)
+                                        @if($item->id_menuItem==$menuItem->id)
+{{--                                    @if($item->name!='Super admin')--}}
                                         <li class="nav-item">
                                             <a href="{{$item->link}}" class="nav-link">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>{{$item->name}}</p>
                                             </a>
                                         </li>
-                                    @else
-                                        @role('Super admin')
-                                        <li class="nav-item">
-                                            <a href="{{$item->link}}" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>{{$item->name}}</p>
-                                            </a>
-                                        </li>
+{{--                                    @else--}}
+{{--                                        @role('Super admin')--}}
+{{--                                        <li class="nav-item">--}}
+{{--                                            <a href="{{$item->link}}" class="nav-link">--}}
+{{--                                                <i class="far fa-circle nav-icon"></i>--}}
+{{--                                                <p>{{$item->name}}</p>--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                        @endrole--}}
+{{--                                    @endif--}}
+                                                        @endif
+                                            @endforeach
                                         @endrole
-                                    @endif
-                                    @endif
-                        @endforeach
+                                        @endif
                     @continue
+
 {{--                            @else--}}
                     @endif
-                    @if($menuItem->name!='Super Admin manage')
+                    @if($menuItem->name!='Super admin manage')
                     <li class="nav-item">
                         <a href="{{$menuItem->link}}" class="nav-link">
                             <i class="nav-icon fas fa-copy"></i>
@@ -97,6 +103,8 @@
 {{--                            @endif--}}
                 @endforeach
             </ul>
+
+        </nav>
         </nav>
         <!-- /.sidebar-menu -->
     </div>

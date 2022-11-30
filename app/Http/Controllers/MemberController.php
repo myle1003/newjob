@@ -68,6 +68,7 @@ class MemberController extends Controller
                     ->get();
             }
         }
+
         return view('index2')->with(['members' => $members,
             'menuItems' =>$menuItems,
             'items'=>$items]);
@@ -142,7 +143,7 @@ class MemberController extends Controller
             ], 400);
         }
 
-        $member = $this->member_service->destroy($id);
+        $this->member_service->destroy($id);
         return response()->json(['success'=>'Delete member successfully']);
 //        return response()->json('Success', 201);
 //        $members = $this->member_service->getMember();

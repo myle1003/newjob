@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Item;
 use App\Models\MenuItem;
+use App\Models\RouteItems;
+use App\Models\Routes;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Services\AccountsService;
 use App\Services\RolesService;
 use Auth;
 use Session;
+use Spatie\Permission\Models\Permission;
 
 class AccountController extends Controller
 {
@@ -65,6 +69,16 @@ class AccountController extends Controller
      */
    public function index($id)
    {
+
+//       $routes = Routes::select('*')
+//           ->get();
+//       $items = '';
+//       foreach ($routes as $route) {
+//           $items = RouteItems::select('*')
+////               ->where('id_route', '=', $route->id)
+//               ->get();
+//       }
+//       dd($items);
        $accounts = $this->account_service->getAccountByRole($id);
        $menuItems = MenuItem::select('*')
            ->where('status','=','1')
@@ -190,5 +204,31 @@ class AccountController extends Controller
     public function getlogin(){
         return view('login');
     }
+
+//         public function getlogin()
+//     {
+////         Role::create( ['name'=>'Super admin']);
+////         Permission::create(['name'=>'Delete super admin']);
+//
+//          $role = Role::findById(1);
+//          $permission = Permission::findById(1);
+//          $role->givePermissionTo($permission);
+// ////        $role->revokePermissionTo($permission);
+// //        $account = $this->account_service->getAccountByRole(2);
+// //        dd($account);
+////         dd(auth()->user());
+//         // $account = Account::find(1);
+//         // if ($account->hasRole('Super admin')){
+//         //     echo 'Yes';
+//         // }else {
+//         //     echo 'No';
+//         // };
+// //        dd($account);
+// //        $account->assignRole('Admin');
+//
+//         $accounts = $this->account_service->getAccountByRole(1);
+//         return view('admin')->with(['accounts' => $accounts]);
+// //        return view('permission');
+//     }
 
 }

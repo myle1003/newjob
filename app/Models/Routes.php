@@ -4,13 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Permission\Traits\HasRoles;
 
-class Role extends Model
+class Routes extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'id',
-        'name'
-    ];
 }

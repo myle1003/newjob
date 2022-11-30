@@ -34,7 +34,7 @@
                         </div>
                         <div class="my-2">
                             <label for="password">Password</label>
-                            <input type="text" name="password" class="form-control" placeholder="Password" required>
+                            <input type="password" name="password" class="form-control" placeholder="Password" required>
                         </div>
                     </div>
                     <div class="modal-footer">
